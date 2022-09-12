@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.xipki.iaik:pkcs11-constants:1.4.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/xipki/iaik/pkcs11-constants/1.4.2/pkcs11-constants-1.4.2.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/xipki/iaik/pkcs11-constants/1.4.2/pkcs11-constants-1.4.2-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/xipki/iaik/pkcs11-constants/1.4.2/pkcs11-constants-1.4.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
