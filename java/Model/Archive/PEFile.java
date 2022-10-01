@@ -4,16 +4,16 @@ import net.jsign.pe.Section;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public class PEFile extends net.jsign.pe.PEFile implements Archive {
     private final File file;
-    private final ArrayList<Section> sections;
+    private final List<Section> sections;
 
     public PEFile(File file) throws IOException {
         super(file);
         this.file = file;
-        this.sections = new ArrayList<Section>();
+        this.sections = this.getSections();
     }
 
     @Override
