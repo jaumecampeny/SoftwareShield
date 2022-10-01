@@ -17,7 +17,7 @@ import static Model.Settings.*;
 public class ProgramView extends JFrame {
     private JTextField text_FE, text_FS;
     private JButton button_FE, button_FS, button_CF, button_BN, button_BO, button_BE;
-    private JCheckBox technique_MBHS, technique_SRS, technique_HE, technique_SBD, technique_PTDAW, technique_CRDP;
+    private JCheckBox technique_EW, technique_SRS, technique_HE, technique_SBD, technique_PTDAW, technique_CRDP;
     private JFileChooser jFileChooser;
 
     public ProgramView() throws IOException {
@@ -47,7 +47,7 @@ public class ProgramView extends JFrame {
         button_BO.addActionListener(actionListener);
         button_BE.addActionListener(actionListener);
 
-        technique_MBHS.addActionListener(actionListener);
+        technique_EW.addActionListener(actionListener);
         technique_SRS.addActionListener(actionListener);
         technique_HE.addActionListener(actionListener);
         technique_SBD.addActionListener(actionListener);
@@ -94,10 +94,10 @@ public class ProgramView extends JFrame {
         techniquesPanel.setLayout(new BoxLayout(techniquesPanel, BoxLayout.Y_AXIS));
         techniquesPanel.setBorder(BorderFactory.createTitledBorder(TECHNIQUES));
 
-        technique_MBHS = new JCheckBox(TECHNIQUE_MBHS);
-        technique_MBHS.setEnabled(false);
-        technique_MBHS.setActionCommand(TAG_TECHNIQUE_MBHS);
-        addComponentLeft(techniquesPanel,technique_MBHS);
+        technique_EW = new JCheckBox(TECHNIQUE_EW);
+        technique_EW.setEnabled(false);
+        technique_EW.setActionCommand(TAG_TECHNIQUE_EW);
+        addComponentLeft(techniquesPanel,technique_EW);
         technique_SRS = new JCheckBox(TECHNIQUE_SRS);
         technique_SRS.setEnabled(false);
         addComponentLeft(techniquesPanel,technique_SRS);
@@ -148,7 +148,7 @@ public class ProgramView extends JFrame {
     }
 
     public void addItemListener(ItemListener itemListener){
-        technique_MBHS.addItemListener(itemListener);
+        technique_EW.addItemListener(itemListener);
         technique_SRS.addItemListener(itemListener);
         technique_HE.addItemListener(itemListener);
         technique_SBD.addItemListener(itemListener);
@@ -159,7 +159,7 @@ public class ProgramView extends JFrame {
     public ItemListener createItemListener(ViewController viewController){
         return e -> {
             boolean selected = e.getStateChange() == ItemEvent.SELECTED;
-            if(e.getSource() == technique_MBHS) viewController.itemChanged(TAG_TECHNIQUE_MBHS,selected);
+            if(e.getSource() == technique_EW) viewController.itemChanged(TAG_TECHNIQUE_EW,selected);
             if(e.getSource() == technique_SRS) viewController.itemChanged(TAG_TECHNIQUE_SRS,selected);
             if(e.getSource() == technique_HE) viewController.itemChanged(TAG_TECHNIQUE_HE,selected);
             if(e.getSource() == technique_SBD) viewController.itemChanged(TAG_TECHNIQUE_SBD,selected);
@@ -184,8 +184,8 @@ public class ProgramView extends JFrame {
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void setTechnique_MBHS(boolean enable){
-        technique_MBHS.setEnabled(enable);
+    public void setTechnique_EW(boolean enable){
+        technique_EW.setEnabled(enable);
     }
 
     public void setTechnique_SRS(boolean enable){

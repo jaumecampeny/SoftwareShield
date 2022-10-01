@@ -37,7 +37,7 @@ public class TechniqueModel {
             }""".indent(4);
     public static final String TECHNIQUE_SBD_SCRIPT5 = "*(volatile unsigned char *)%s_nodebug == 0xCC";
     public enum Technique{
-        TECHNIQUE_MBHS, TECHNIQUE_SRS, TECHNIQUE_HE, TECHNIQUE_SBD, TECHNIQUE_PTDAW, TECHNIQUE_CRDP
+        TECHNIQUE_EW, TECHNIQUE_SRS, TECHNIQUE_HE, TECHNIQUE_SBD, TECHNIQUE_PTDAW, TECHNIQUE_CRDP
     }
 
     private final boolean[] techniqueSelected;

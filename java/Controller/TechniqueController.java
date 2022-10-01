@@ -31,17 +31,16 @@ public class TechniqueController {
     public void setTechniqueOptions() {
         viewController.disableAllTechniques();
         if (fileController.isInputCFile()) {
-            viewController.enableTechnique_MBHS();
+            viewController.enableTechnique_EW();
             viewController.enableTechnique_SRS();
             viewController.enableTechnique_HE();
             viewController.enableTechnique_SBD();
             if (os == MainModel.OS.Linux_OS || os == MainModel.OS.Mac_OS) viewController.enableTechnique_PTDAW();
             if (os == MainModel.OS.Windows_OS) viewController.enableTechnique_CRDP();
-
             viewController.enableAllGenerations();
 
         } else if (fileController.isInputASMFile()) {
-            viewController.enableTechnique_MBHS();
+            viewController.enableTechnique_EW();
             viewController.enableTechnique_SRS();
             viewController.enableTechnique_HE();
             viewController.enableTechnique_SBD();
@@ -49,24 +48,21 @@ public class TechniqueController {
             if (os == MainModel.OS.Linux_OS || os == MainModel.OS.Mac_OS)
                 viewController.enableTechnique_PTDAW();
             if (os == MainModel.OS.Windows_OS) viewController.enableTechnique_CRDP();
-
             viewController.enableAllGenerations();
             viewController.disableButton_CF();
 
         } else if (fileController.isInputObjectFile()) {
-            viewController.enableTechnique_MBHS();
+            viewController.enableTechnique_EW();
             viewController.enableTechnique_SRS();
             viewController.enableTechnique_HE();
-
             viewController.enableAllGenerations();
             viewController.disableButton_CF();
             viewController.disableButton_BN();
 
         } else if (fileController.isInputPEFile()) {
-            viewController.enableTechnique_MBHS();
+            viewController.enableTechnique_EW();
             viewController.enableTechnique_HE();
             viewController.enableTechnique_SRS();
-
             viewController.enableAllGenerations();
             viewController.disableButton_CF();
             viewController.disableButton_BN();
@@ -76,8 +72,8 @@ public class TechniqueController {
 
     public void setTechniqueSelected(String flag, boolean selected) {
         switch (flag) {
-            case TAG_TECHNIQUE_MBHS ->
-                    techniqueModel.setTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_MBHS, selected);
+            case TAG_TECHNIQUE_EW ->
+                    techniqueModel.setTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_EW, selected);
             case TAG_TECHNIQUE_SRS ->
                     techniqueModel.setTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_SRS, selected);
             case TAG_TECHNIQUE_HE ->
@@ -91,8 +87,8 @@ public class TechniqueController {
         }
     }
 
-    public boolean isTechniqueMBHS_Selected() {
-        return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_MBHS);
+    public boolean isTechniqueEW_Selected() {
+        return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_EW);
     }
 
     public boolean isTechniqueSRS_Selected() {
@@ -135,7 +131,7 @@ public class TechniqueController {
 
     public void applyBETechniques(PEFile peFile) {
         if (isTechniqueHE_Selected()) applyHE_Technique(peFile);
-        if (isTechniqueMBHS_Selected()) applyMBHS_Technique(peFile);
+        if (isTechniqueEW_Selected()) applyEW_Technique(peFile);
         if (isTechniqueSRS_Selected()) applySRS_Technique(peFile);
     }
 
@@ -238,17 +234,17 @@ public class TechniqueController {
         }
     }
 
-    private void applyMBHS_Technique(PEFile peFile) {
+    private void applyEW_Technique(PEFile peFile) {
         try {
             File tempFile = new File(FilenameUtils.removeExtension(peFile.getAbsoluteFile().toPath() +
                     FileModel.TEMP_EXTENSION + FileModel.EXE_EXTENSION));
             Files.copy(peFile.getAbsoluteFile().toPath(), tempFile.getAbsoluteFile().toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
             if(!peFile.delete()) System.out.println("ERROR DELETING FILE: " + peFile.getName());
-            ProcessBuilder builder = new ProcessBuilder("python", "MBHS_Packer.py", tempFile.getAbsoluteFile().getPath(),
+            ProcessBuilder builder = new ProcessBuilder("python", "EW_Packer.py", tempFile.getAbsoluteFile().getPath(),
                     "-o", peFile.getAbsoluteFile().getPath()).inheritIO();
             builder.redirectErrorStream(true);
-            builder.directory(new File(peFile.getParentFile() + "/MBHS"));
+            builder.directory(new File(peFile.getParentFile() + "/EW"));
             builder.start().waitFor();
             if(!tempFile.delete()) System.out.println("ERROR DELETING FILE: " + tempFile.getName());
         } catch (IOException | InterruptedException e) {

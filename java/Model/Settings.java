@@ -11,7 +11,7 @@ public class Settings {
     public static final String BUTTON_OUTPUT = "Guardar";
 
     public static final String TECHNIQUES = "Tècniques";
-    public static final String TECHNIQUE_MBHS = "Multi-Block Hashing Scheme";
+    public static final String TECHNIQUE_EW = "Encryption Wrappers";
     public static final String TECHNIQUE_SRS = "Stripping Redundant Symbols";
     public static final String TECHNIQUE_HE = "Header Entrypoint";
     public static final String TECHNIQUE_SBD = "Software Breakpoint Detection";
@@ -26,7 +26,7 @@ public class Settings {
 
     public static final String TAG_INPUT = "[INPUT]";
     public static final String TAG_OUTPUT = "[OUTPUT]";
-    public static final String TAG_TECHNIQUE_MBHS = "[MBHS]";
+    public static final String TAG_TECHNIQUE_EW = "[EW]";
     public static final String TAG_TECHNIQUE_SRS = "[SRS]";
     public static final String TAG_TECHNIQUE_HE = "[HE]";
     public static final String TAG_TECHNIQUE_SBD = "[SBD]";
@@ -43,7 +43,7 @@ public class Settings {
 
     public static final String ERROR_WRONG_EXTENSION_TITLE = "Extensió no suportada";
 
-    public static final String ERROR_WRONG_EXTENSION_MESSAGE = "ERROR: La extensió del fitxer proporcionat no és cap de les suportades. Siusplau, inserir un fitxer amb extensió .c, .asm o .exe";
+    public static final String ERROR_WRONG_EXTENSION_MESSAGE = "ERROR: La extensió del fitxer proporcionat no és cap de les suportades. Siusplau, inserir un fitxer amb extensió .c, .s, .o o .exe";
 
     public static final String INFO_CORRECT_FILE_TITLE = "Fitxer carregat";
 

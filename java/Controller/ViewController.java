@@ -33,7 +33,7 @@ public class ViewController implements ActionListener {
     }
 
     public void disableAllTechniques() {
-        programView.setTechnique_MBHS(false);
+        programView.setTechnique_EW(false);
         programView.setTechnique_SRS(false);
         programView.setTechnique_HE(false);
         programView.setTechnique_SBD(false);
@@ -41,8 +41,8 @@ public class ViewController implements ActionListener {
         programView.setTechnique_CRDP(false);
     }
 
-    public void enableTechnique_MBHS() {
-        programView.setTechnique_MBHS(true);
+    public void enableTechnique_EW() {
+        programView.setTechnique_EW(true);
     }
 
     public void enableTechnique_SRS() {

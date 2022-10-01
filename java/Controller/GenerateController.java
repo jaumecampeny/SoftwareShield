@@ -16,9 +16,13 @@ public class GenerateController {
     }
 
     public void setGenerateOptions(){
-        if(techniqueController.isTechniqueMBHS_Selected() || techniqueController.isTechniqueSRS_Selected() || techniqueController.isTechniqueHE_Selected()){
+        if(techniqueController.isTechniqueSRS_Selected()){
             viewController.disableButton_CF();
             viewController.disableButton_BN();
+        }else if(techniqueController.isTechniqueEW_Selected() || techniqueController.isTechniqueHE_Selected()){
+            viewController.disableButton_CF();
+            viewController.disableButton_BN();
+            viewController.disableButton_BO();
         }else{
             viewController.enableAllGenerations();
         }
