@@ -1,4 +1,14 @@
 package Model;
+
+/**
+ * TechniqueModel és una classe pròpia del mòdul Model, seguint el patró MVC.
+ * Resulta en el model encarregat d'enregistrar i contenir informació respectiva a l'aplicació de les tècniques.
+ * En ell s'especifiquen les modificacions a aplicar per aquelles tècniques que requereixen de modificacions de tipus text, així com l'estat de selecció de les tècniques per part de l'usuari, de cara a posteriorment aplicar-les.
+ *
+ * @author Jaume Campeny
+ * @version 1.0
+ * @since 17
+ */
 public class TechniqueModel {
     public static final String TECHNIQUE_CRDP_SCRIPT1 = "#include \"windows.h\"";
     public static final String TECHNIQUE_CRDP_SCRIPT2 = """
@@ -42,14 +52,27 @@ public class TechniqueModel {
 
     private final boolean[] techniqueSelected;
 
+    /**
+     * Constructor de la classe. Defineix la llargada de l'array de booleans, respectiu a les tècniques.
+     */
     public TechniqueModel(){
         this.techniqueSelected = new boolean[Technique.values().length];
     }
 
+    /**
+     * Setter de l'estat de la tècnica amb id technique, indicat per selected.
+     * @param technique Technique com a identificador de la tècnica a modificar.
+     * @param selected boolean amb el nou valor a actualitzar per a la tècnica.
+     */
     public void setTechniqueSelected(Technique technique, boolean selected){
         techniqueSelected[technique.ordinal()] = selected;
     }
 
+    /**
+     * Getter de l'estat específic de la tècnica technique.
+     * @param technique Technique com a identificador de la tècnica a consultar.
+     * @return boolean amb el valor de selecció de la tècnica, sent True si la tècnica està seleccionada, o False en cas contrari.
+     */
     public boolean getTechniqueSelected(Technique technique){
         return techniqueSelected[technique.ordinal()];
     }

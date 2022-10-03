@@ -14,12 +14,25 @@ import java.io.IOException;
 
 import static Model.Settings.*;
 
+/**
+ * ProgramView és la classe on es renderitza i treballen tots els elements que es mostraran per pantalla, els quals l'usuari pot veure i interactuar.
+ * Segueix l'arquitectura d'un patró MVC.
+ * Aquest, vincula les interaccions de l'usuari amb la capa controlador (ViewController)
+ *
+ * @author Jaume Campeny
+ * @version 1.0
+ * @since 17
+ */
 public class ProgramView extends JFrame {
     private JTextField text_FE, text_FS;
     private JButton button_FE, button_FS, button_CF, button_BN, button_BO, button_BE;
     private JCheckBox technique_EW, technique_SRS, technique_HE, technique_SBD, technique_PTDAW, technique_CRDP;
     private JFileChooser jFileChooser;
 
+    /**
+     * Únic constructor de la classe. Inicialitza i prepara el JFrame per a la vista a mostrar a l'usuari per pantalla.
+     * @throws IOException Excepció originada a causa d'un error en la càrrega de la icona del programa.
+     */
     public ProgramView() throws IOException {
         super(TITLE_VIEW);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,13 +45,17 @@ public class ProgramView extends JFrame {
 
         mainPanel.add(createFilePanel(), BorderLayout.WEST);
         mainPanel.add(createTechniquesPanel(), BorderLayout.EAST);
-        mainPanel.add(createButtonsPanel(), BorderLayout.SOUTH);
+        mainPanel.add(createOutputsGenerationPanel(), BorderLayout.SOUTH);
 
         getContentPane().add(mainPanel);
         pack();
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Mètode que s'encarrega de registrar els actuadors en format esdeveniments, entre la vista i el controlador especificats.
+     * @param actionListener ActionListener que fa referència al controlador que tractarà la petició.
+     */
     public void registerControllers(ActionListener actionListener) {
         button_FE.addActionListener(actionListener);
         button_FS.addActionListener(actionListener);
@@ -55,10 +72,18 @@ public class ProgramView extends JFrame {
         technique_CRDP.addActionListener(actionListener);
     }
 
+    /**
+     * Creació de la vista JFileChooser, la qual permet la selecció de fitxers i directoris dins l'equip.
+     * @return JFileChooser creat.
+     */
     public JFileChooser createFileChooserView(){
         return new JFileChooser();
     }
 
+    /**
+     * Creació del panell vinculat a l'especificació del fitxer d'entrada i directori de sortida respectius.
+     * @return JPanel pertinent a l'especificació de la respectiva entrada i sortida del programa.
+     */
     private JPanel createFilePanel() {
         JPanel filePanel = new JPanel();
         text_FE = new JTextField(10);
@@ -89,6 +114,10 @@ public class ProgramView extends JFrame {
         return filePanel;
     }
 
+    /**
+     * Creació del panell vinculat a la selecció de les possibles tècniques a aplicar en el programa.
+     * @return JPanel pertinent a l'especificació de les possibles tècniques a aplicar.
+     */
     private JPanel createTechniquesPanel() {
         JPanel techniquesPanel = new JPanel();
         techniquesPanel.setLayout(new BoxLayout(techniquesPanel, BoxLayout.Y_AXIS));
@@ -117,7 +146,11 @@ public class ProgramView extends JFrame {
         return techniquesPanel;
     }
 
-    private JPanel createButtonsPanel() {
+    /**
+     * Creació del panell vinculat a la selecció de les possibles generacions del fitxer de sortida.
+     * @return JPanel pertinent als diversos processos de generació del fitxer de sortida.
+     */
+    private JPanel createOutputsGenerationPanel() {
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setBorder(BorderFactory.createTitledBorder(OUTPUT));
 
@@ -141,12 +174,21 @@ public class ProgramView extends JFrame {
         return buttonsPanel;
     }
 
+    /**
+     * Funció que permet l'alineació a l'esquerra d'un component dins d'un JPanel, i posteriorment l'afegeix.
+     * @param panel JPanel on afegir el component.
+     * @param component JComponent que alinear a l'esquerra i posteriorment afegir-lo al JPanel especificat.
+     */
     private void addComponentLeft(JPanel panel, JComponent component){
         component.setAlignmentX(LEFT_ALIGNMENT);
         component.setMaximumSize(component.getPreferredSize());
         panel.add(component);
     }
 
+    /**
+     * Mètode que s'encarrega de registrar la relació entre els elements de la vista JCheckBox i el ItemListener especificat, resultant d'un controlador.
+     * @param itemListener ItemListener pertinent al controlador especificat.
+     */
     public void addItemListener(ItemListener itemListener){
         technique_EW.addItemListener(itemListener);
         technique_SRS.addItemListener(itemListener);
@@ -156,6 +198,11 @@ public class ProgramView extends JFrame {
         technique_CRDP.addItemListener(itemListener);
     }
 
+    /**
+     * Mètode que s'encarrega de crear un ItemListener a partir del controlador especificat.
+     * @param viewController ViewController pertinent al controlador especificat
+     * @return ItemListener creat.
+     */
     public ItemListener createItemListener(ViewController viewController){
         return e -> {
             boolean selected = e.getStateChange() == ItemEvent.SELECTED;
@@ -168,74 +215,148 @@ public class ProgramView extends JFrame {
         };
     }
 
+    /**
+     * Setter del text de la variable JTextField text_FE.
+     * @param text String amb el text a afegir a la variable text_FE.
+     */
     public void setInputText(String text){
         text_FE.setText(text);
     }
 
+    /**
+     * Setter del text de la variable JTextField text_FS.
+     * @param text String amb el text a afegir a la variable text_FS.
+     */
     public void setOutputText(String text){
         text_FS.setText(text);
     }
 
+    /**
+     * Creació d'un diàleg d'error que mostra el títol i missatges especificats.
+     * @param title String del títol a mostrar en el missatge d'error.
+     * @param message String del text del missatge a mostrar en el missatge d'error.
+     */
     public void showErrorMessage(String title, String message){
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * Creació d'un diàleg d'informació que mostra el títol i missatges especificats.
+     * @param title String del títol a mostrar en el missatge d'informació.
+     * @param message String del text del missatge a mostrar en el missatge d'informació.
+     */
     public void showInfoMessage(String title, String message){
         JOptionPane.showMessageDialog(this, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Setter de la disponibilitat del JCheckBox pertinent a la tècnica Encryption Wrappers.
+     * @param enable boolean amb l'estat de disponibilitat de la tècnica pertinent.
+     */
     public void setTechnique_EW(boolean enable){
         technique_EW.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JCheckBox pertinent a la tècnica Stripping Redundant Symbols.
+     * @param enable boolean amb l'estat de disponibilitat de la tècnica pertinent.
+     */
     public void setTechnique_SRS(boolean enable){
         technique_SRS.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JCheckBox pertinent a la tècnica Header Entrypoint.
+     * @param enable boolean amb l'estat de disponibilitat de la tècnica pertinent.
+     */
     public void setTechnique_HE(boolean enable){
         technique_HE.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JCheckBox pertinent a la tècnica Software Breakpoint Detection.
+     * @param enable boolean amb l'estat de disponibilitat de la tècnica pertinent.
+     */
     public void setTechnique_SBD(boolean enable){
         technique_SBD.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JCheckBox pertinent a la tècnica PT_DenyAttachWorked.
+     * @param enable boolean amb l'estat de disponibilitat de la tècnica pertinent.
+     */
     public void setTechnique_PTDAW(boolean enable){
         technique_PTDAW.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JCheckBox pertinent a la tècnica CheckRemoteDebuggerPresent.
+     * @param enable boolean amb l'estat de disponibilitat de la tècnica pertinent.
+     */
     public void setTechnique_CRDP(boolean enable){
         technique_CRDP.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JButton pertinent a la generació del fitxer de sortida en codi font.
+     * @param enable boolean amb l'estat de la disponibilitat del botó pertinent.
+     */
     public void setButton_CF(boolean enable){
         button_CF.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JButton pertinent a la generació del fitxer de sortida en codi de baix nivell.
+     * @param enable boolean amb l'estat de la disponibilitat del botó pertinent.
+     */
     public void setButton_BN(boolean enable){
         button_BN.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JButton pertinent a la generació del fitxer de sortida en binari de tipus objecte.
+     * @param enable boolean amb l'estat de la disponibilitat del botó pertinent.
+     */
     public void setButton_BO(boolean enable){
         button_BO.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JButton pertinent a la generació del fitxer de sortida en binari de tipus executable.
+     * @param enable boolean amb l'estat de la disponibilitat del botó pertinent.
+     */
     public void setButton_BE(boolean enable){
         button_BE.setEnabled(enable);
     }
 
+    /**
+     * Setter de la disponibilitat del JButton pertinent a la selecció del directori de sortida.
+     * @param enable boolean amb l'estat de la disponibilitat del botó pertinent.
+     */
     public void setButton_FS(boolean enable){
         button_FS.setEnabled(enable);
     }
 
+    /**
+     * Funció que determina si el camp de text específic pertinent al JTextField de la sortida del programa no està buit.
+     * @return boolean que indica true en cas que dit JTextField no estigui buit, i fals en cas contrari.
+     */
     public boolean hasText_FS(){
         return text_FS.getText().compareTo("") != 0;
     }
 
+    /**
+     * Getter de la variable JFileChooser per a la selecció de fitxers i directoris.
+     * @return JFileChooser en qüestió.
+     */
     public JFileChooser getJFileChooser() {
         return jFileChooser;
     }
 
+    /**
+     * Setter de la variable JFileChooser per a la selecció de fitxers i directoris.
+     * @param jFileChooser JFileChooser en qüestió
+     */
     public void setJFileChooser(JFileChooser jFileChooser){
         this.jFileChooser = jFileChooser;
     }

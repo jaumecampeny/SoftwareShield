@@ -15,12 +15,28 @@ import java.nio.file.StandardCopyOption;
 import static Model.Settings.*;
 import static Model.TechniqueModel.*;
 
+/**
+ * TechniqueController és una classe pròpia del mòdul Controlador, seguint el patró MVC.
+ * S'encarrega de la lògica pertinent a l'habilitació i inhabilitació de les tècniques en la vista segons convingui, d'afegit a la seva aplicació en el transcurs del procés de creació del fitxer de sortida.
+ * Disposa del seu propi model i de comunicacions tant amb el controlador FileController per a l'escriputra i modificació dels fitxers a generació, així com amb el controlador ViewController per a tractar l'habilitació dels elements pertinents al panell de tècniques.
+ *
+ * @author Jaume Campeny
+ * @version 1.0
+ * @since 17
+ */
 public class TechniqueController {
     private final FileController fileController;
     private final ViewController viewController;
     private final TechniqueModel techniqueModel;
     private final MainModel.OS os;
 
+    /**
+     * Únic constructor de la classe. Permet la creació de la instància TechniqueController, mitjançant l'enregistrament de les instàncies rebudes TechniqueModel pertinent al Model, i FileController i ViewController pertinents als controladors necessaris.
+     * @param fileController FileController com a controlador que permetrà la modificació del fitxer de sortida a l'hora d'aplicar les tècniques seleccionades en aquests.
+     * @param viewController ViewController com a controlador que permetrà la manipulació lògica de l'habilitació de les diverses tècniques dins del respectiu panell en la vista.
+     * @param techniqueModel TechniqueModel com a model que disposa dels canvis a realitzar quant a l'aplicació de les diverses tècniques es refereix, d'afegit a l'enregistrament de quines tècniques ha seleccionat l'usuari i quines no.
+     * @param os OS indicant el sistema operatiu en el que s'executa el programa.
+     */
     public TechniqueController(FileController fileController, ViewController viewController, TechniqueModel techniqueModel, MainModel.OS os) {
         this.viewController = viewController;
         this.fileController = fileController;
@@ -28,6 +44,9 @@ public class TechniqueController {
         this.os = os;
     }
 
+    /**
+     * Mètode que defineix la lògica d'habilitació en la interfície visual, de les possibles tècniques a aplicar segons el fitxer d'entrada introduït per l'usuari.
+     */
     public void setTechniqueOptions() {
         viewController.disableAllTechniques();
         if (fileController.isInputCFile()) {
@@ -70,6 +89,11 @@ public class TechniqueController {
         }
     }
 
+    /**
+     * Mètode que actualitza el model amb el canvi realitzat a la tècnica identificada amb flag, i el nou estat identificat amb selected.
+     * @param flag String que indica l'identificador de la tècnica actualitzada.
+     * @param selected boolean que indica el nou estat de la tècnica identificada amb flag.
+     */
     public void setTechniqueSelected(String flag, boolean selected) {
         switch (flag) {
             case TAG_TECHNIQUE_EW ->
@@ -87,30 +111,58 @@ public class TechniqueController {
         }
     }
 
+    /**
+     * Getter de l'estat de la tècnica Encryption Wrappers.
+     * @return boolean que indica amb True si la tècnica està seleccionada, o amb False en cas contrari.
+     */
     public boolean isTechniqueEW_Selected() {
         return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_EW);
     }
 
+    /**
+     * Getter de l'estat de la tècnica Stripping Redundant Symbols.
+     * @return boolean que indica amb True si la tècnica està seleccionada, o amb False en cas contrari.
+     */
     public boolean isTechniqueSRS_Selected() {
         return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_SRS);
     }
 
+    /**
+     * Getter de l'estat de la tècnica Header Entrypoint.
+     * @return boolean que indica amb True si la tècnica està seleccionada, o amb False en cas contrari.
+     */
     public boolean isTechniqueHE_Selected() {
         return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_HE);
     }
 
+    /**
+     * Getter de l'estat de la tècnica Software Breakpoint Detection.
+     * @return boolean que indica amb True si la tècnica està seleccionada, o amb False en cas contrari.
+     */
     public boolean isTechniqueSBD_Selected() {
         return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_SBD);
     }
 
+    /**
+     * Getter de l'estat de la tècnica PT_DenyAttachWorked.
+     * @return boolean que indica amb True si la tècnica està seleccionada, o amb False en cas contrari.
+     */
     public boolean isTechniquePTDAW_Selected() {
         return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_PTDAW);
     }
 
+    /**
+     * Getter de l'estat de la tècnica CheckRemoteDebuggerPresent.
+     * @return boolean que indica amb True si la tècnica està seleccionada, o amb False en cas contrari.
+     */
     public boolean isTechniqueCRDP_Selected() {
         return techniqueModel.getTechniqueSelected(TechniqueModel.Technique.TECHNIQUE_CRDP);
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent per a l'aplicació de les tècniques seleccionades aplicables en fase de codi font.
+     * @param cFile CFile pertinent al fitxer on aplicar les tècniques seleccionades.
+     */
     public void applyCFTechniques(CFile cFile) {
         if (isTechniqueCRDP_Selected()) applyCRDP_Technique(cFile);
         if (isTechniquePTDAW_Selected()) {
@@ -120,21 +172,37 @@ public class TechniqueController {
         if (isTechniqueSBD_Selected()) applySBD_Technique(cFile);
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent per a l'aplicació de les tècniques seleccionades aplicables en fase de codi de baix nivell.
+     * @param asmFile ASMFile pertinent al fitxer on aplicar les tècniques seleccionades.
+     */
     public void applyBNTechniques(ASMFile asmFile) {
         //TODO: Escriure tècniques CF també per ASM
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent per a l'aplicació de les tècniques seleccionades aplicables en fase de binari de tipus objecte.
+     * @param objectFile ObjectFile pertinent al fitxer on aplicar les tècniques seleccionades.
+     */
     public void applyBOTechniques(ObjectFile objectFile) {
         //TODO: Escriure tècnica HE també en BO
         if (isTechniqueSRS_Selected()) applySRS_Technique(objectFile);
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent per a l'aplicació de les tècniques seleccionades aplicables en fase de binari de tipus executable.
+     * @param peFile PEFile pertinent al fitxer on aplicar les tècniques seleccionades.
+     */
     public void applyBETechniques(PEFile peFile) {
         if (isTechniqueHE_Selected()) applyHE_Technique(peFile);
         if (isTechniqueEW_Selected()) applyEW_Technique(peFile);
         if (isTechniqueSRS_Selected()) applySRS_Technique(peFile);
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent a l'aplicació de la tècnica CheckRemoteDebuggerPresent en el cFile indicat com a paràmetre.
+     * @param cFile CFile pertinent al fitxer on aplicar la tècnica CheckRemoteDebuggerPresent.
+     */
     private void applyCRDP_Technique(CFile cFile) {
         if (!cFile.existsInclude("windows.h")) {
             cFile.addTextToFile(TECHNIQUE_CRDP_SCRIPT1, 1);
@@ -143,6 +211,10 @@ public class TechniqueController {
         cFile.addTextToFile(TECHNIQUE_CRDP_SCRIPT2, cFile.getFunctionLine("main") + 1);
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent a l'aplicació de la tècnica PT_DenyAttachWorked en el cFile indicat com a paràmetre, per a sistemes operatius MAC.
+     * @param cFile CFile pertinent al fitxer on aplicar la tècnica PT_DenyAttachWorked.
+     */
     private void applyPTDAW_Technique_Mac(CFile cFile) {
         if (!cFile.existsInclude("stdlib.h")) {
             cFile.addTextToFile("#include <stdlib.h>", 1);
@@ -167,6 +239,10 @@ public class TechniqueController {
         cFile.addTextToFile(TECHNIQUE_PTDAW_MAC_SCRIPT2, cFile.getFunctionLine("main") + 1);
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent a l'aplicació de la tècnica PT_DenyAttachWorked en el cFile indicat com a paràmetre, per a sistemes operatius Linux.
+     * @param cFile CFile pertinent al fitxer on aplicar la tècnica PT_DenyAttachWorked.
+     */
     private void applyPTDAW_Technique_Linux(CFile cFile) {
         if (!cFile.existsInclude("sys/ptrace.h")) {
             cFile.addTextToFile("#include <sys/ptrace.h>", 1);
@@ -175,6 +251,10 @@ public class TechniqueController {
         cFile.addTextToFile(TECHNIQUE_PTDAW_LINUX_SCRIPT, cFile.getFunctionLine("main") + 1);
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent a l'aplicació de la tècnica Software Breakpoint Detection en el cFile indicat com a paràmetre.
+     * @param cFile CFile pertinent al fitxer on aplicar la tècnica Software Breakpoint Detection.
+     */
     private void applySBD_Technique(CFile cFile) {
         StringBuilder functionsComparison = new StringBuilder();
         if (cFile.getFunctionsSize() - 1 > 0) {
@@ -202,6 +282,10 @@ public class TechniqueController {
         }
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent a l'aplicació de la tècnica Stripping Redundant Symbols en el archive indicat com a paràmetre.
+     * @param archive Archive pertinent al fitxer on aplicar la tècnica Stripping Redundant Symbols.
+     */
     private void applySRS_Technique(Archive archive) {
         try {
             ProcessBuilder builder = new ProcessBuilder(
@@ -214,26 +298,22 @@ public class TechniqueController {
         }
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent a l'aplicació de la tècnica Header Entrypoint en el peFile indicat com a paràmetre.
+     * @param peFile PEFile pertinent al fitxer on aplicar la tècnica Header Entrypoint.
+     */
     private void applyHE_Technique(PEFile peFile) {
         for (int i = 0; i < peFile.getTotalSections(); i++) {
             if (peFile.getSection(i).getName().compareTo(".text") == 0 && peFile.getSection(i).getCharacteristics().contains(SectionFlag.WRITE)) {
                 peFile.getSection(i).discardFlag(SectionFlag.WRITE);
-                /*
-                    //PASSFILE -> binary file path
-                    RandomAccessFile raf = new RandomAccessFile(PASSFILE, "rw");
-
-                    //Entrie = Array number to modify
-                    int offset = (entrie * 128 );
-
-                    raf.seek(offset);
-                    // cipherText = 128 bytes of the new array for the speficic entrie
-                    raf.write(cipherText);
-                    raf.close();
-                 */
             }
         }
     }
 
+    /**
+     * Mètode que realitza la lògica pertinent a l'aplicació de la tècnica Encryption Wrapper en el peFile indicat com a paràmetre.
+     * @param peFile PEFile pertinent al fitxer on aplicar la tècnica Encryption Wrapper.
+     */
     private void applyEW_Technique(PEFile peFile) {
         try {
             File tempFile = new File(FilenameUtils.removeExtension(peFile.getAbsoluteFile().toPath() +
