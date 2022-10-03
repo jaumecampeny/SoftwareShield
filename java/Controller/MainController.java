@@ -31,15 +31,21 @@ public class MainController {
         this.generateController = new GenerateController(techniqueController, viewController, fileController);
     }
 
-    public void actionPerformedFile(ProgramView programView, String flag) {
+    /**
+     * Mètode que és cridat des de ViewController, tractant les accions de l'usuari que es portin a terme en el panell de fitxers.
+     * Segons el flag introduït, es determina si l'acció s'ha dut a terme des d'un esdeveniment relacionat amb el fitxer d'entrada, o en conseqüència, amb el directori de sortida d'aquest.
+     * S'encarrega de la lògica pertinent a la visibilitat i disponibilitat dels components dins del panell de fitxers segons les accions de l'usuari, d'afegit a la crida de la lògica en altres controladors deguts.
+     * @param flag String que indica si l'esdeveniment s'ha originat en la modificació de l'entrada o de la sortida.
+     */
+    public void actionPerformedFile(String flag) {
         switch (flag) {
             case TAG_INPUT -> {
-                fileController.actionPerformedInputFile(programView);
+                fileController.actionPerformedInputFile();
                 viewController.enableOutputDialog();
                 if (viewController.isOutputSelected()) techniqueController.setTechniqueOptions();
             }
             case TAG_OUTPUT -> {
-                fileController.actionPerformedOutputFile(programView);
+                fileController.actionPerformedOutputPath();
                 techniqueController.setTechniqueOptions();
             }
         }

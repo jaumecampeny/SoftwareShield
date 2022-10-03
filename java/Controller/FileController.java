@@ -2,7 +2,6 @@ package Controller;
 
 import Model.Archive.*;
 import Model.FileModel;
-import View.ProgramView;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
@@ -39,7 +38,11 @@ public class FileController {
         this.viewController = viewController;
     }
 
-    public void actionPerformedInputFile(ProgramView programView) {
+    /**
+     * Mètode que aplica la lògica pertinent a la selecció del fitxer d'entrada.
+     * Crida la interfície de selecció mitjançant el controlador de la vista, d'afegit a la seva configuració, càrrega del fitxer resultant al model, i respectiva emissió de missatges d'informació o d'error segons correspongui.
+     */
+    public void actionPerformedInputFile() {
         int result = viewController.createFileDialog(JFileChooser.FILES_ONLY,
                 new FileNameExtensionFilter("Codi C, Codi ASM i Binaris objecte i executables", "c", "s", "o", "exe"));
 
@@ -54,7 +57,7 @@ public class FileController {
 
             //Comprovar que el fitxer tingui extensió i que sigui una de les acceptades
             if (extension.isEmpty() || !Arrays.asList(SUPPORTED_EXTENSIONS).contains(extension.get())) {
-                programView.showErrorMessage(ERROR_WRONG_EXTENSION_TITLE, ERROR_WRONG_EXTENSION_MESSAGE);
+                viewController.showErrorMessage(ERROR_WRONG_EXTENSION_TITLE, ERROR_WRONG_EXTENSION_MESSAGE);
                 return;
             }
 
@@ -63,24 +66,25 @@ public class FileController {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            programView.setInputText(fileName.getName());
-            programView.showInfoMessage(INFO_CORRECT_FILE_TITLE, INFO_CORRECT_FILE_MESSAGE);
+            viewController.setInputText(fileName.getName());
+            viewController.showInfoMessage(INFO_CORRECT_FILE_TITLE, INFO_CORRECT_FILE_MESSAGE);
         }
     }
 
-    public void actionPerformedOutputFile(ProgramView programView) {
-        JFileChooser jFileChooser = programView.createFileChooserView();
-        jFileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-        int result = jFileChooser.showOpenDialog(programView);
+    /**
+     * Mètode que aplica la lògica pertinent a la selecció de la ruta de sortida.
+     * Crida la interfície de selecció mitjançant el controlador de la vista, d'afegit a la seva configuració, càrrega la ruta resultant al model, i respectiva emissió de missatges d'informació o d'error segons correspongui.
+     */
+    public void actionPerformedOutputPath() {
+        int result = viewController.createFileDialog(JFileChooser.DIRECTORIES_ONLY, null);
         if (result == JFileChooser.APPROVE_OPTION) {
-            File directory = jFileChooser.getSelectedFile();
+            File directory = viewController.getSelectedFile();
             try {
                 fileModel.loadFile(directory, null, FileModel.OUTPUT_FILE);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            programView.setOutputText(directory.getName());
+            viewController.setOutputText(directory.getName());
         }
     }
 

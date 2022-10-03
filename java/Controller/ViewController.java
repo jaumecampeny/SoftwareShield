@@ -41,7 +41,7 @@ public class ViewController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         String tag = e.getActionCommand();
-        if (tag.contains(TAG_INPUT) || tag.contains(TAG_OUTPUT)) mainController.actionPerformedFile(programView, tag);
+        if (tag.contains(TAG_INPUT) || tag.contains(TAG_OUTPUT)) mainController.actionPerformedFile(tag);
         if (tag.contains(TAG_CF) || tag.contains(TAG_BN) || tag.contains(TAG_BO) || tag.contains(TAG_BE))
             mainController.actionPerformedGenerate(tag);
     }
@@ -190,7 +190,7 @@ public class ViewController implements ActionListener {
     public int createFileDialog(int option, FileNameExtensionFilter fileNameExtensionFilter){
         programView.setJFileChooser(programView.createFileChooserView());
         programView.getJFileChooser().setFileSelectionMode(option);
-        programView.getJFileChooser().setFileFilter(fileNameExtensionFilter);
+        if(fileNameExtensionFilter != null) programView.getJFileChooser().setFileFilter(fileNameExtensionFilter);
         return programView.getJFileChooser().showOpenDialog(programView);
     }
 
