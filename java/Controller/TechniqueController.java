@@ -279,6 +279,8 @@ public class TechniqueController {
                         cFile.getFunctionLine("main"));
             }
             cFile.addTextToFile(String.format(TECHNIQUE_SBD_SCRIPT4, functionsComparison), cFile.getFunctionLine("main") + 1);
+        }else{
+            viewController.showInfoMessage("Tècnica Software Breakpoint Detection no aplicada", "Degut a no considerar múltiples declaracions de funcions en el fitxer, no ha estat possible aplicar la tècnica.");
         }
     }
 
