@@ -171,7 +171,7 @@ public class CFile extends File implements Archive {
      * Classe Function. Permet el tractament de declaracions de funcions trobades en fitxers .C.
      */
     public static class Function {
-        public static final String FUNCTION_DECLARATION_REGEX = "^(?:\\S*)(?: *)(.*)(?:\\()(?:.*)(?:\\)(?: *)\\{)";
+        public static final String FUNCTION_DECLARATION_REGEX = "^\\S* *(.*)\\(.*\\) *\\{";
         private final String functionName;
         private int declaredLine;
 
@@ -214,7 +214,7 @@ public class CFile extends File implements Archive {
      * Classe Include. Permet el tractament de declaracions de includes trobats en fitxers .C.
      */
     public static class Include {
-        public static final String INCLUDE_REGEX = "^(?:#include(?: *)(?:\\\"|<))(.*)(?:\\\"|>)";
+        public static final String INCLUDE_REGEX = "^#include *[\"<](.*)[\">]";
         private final String includeName;
         private int declaredLine;
 
