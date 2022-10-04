@@ -1,11 +1,5 @@
 package Model.Archive;
 
-import Model.Archive.ASMFile;
-import Model.Archive.Archive;
-import Model.Archive.CFile;
-import Model.Archive.ObjectFile;
-import Model.Archive.PEFile;
-
 import java.io.File;
 import java.io.IOException;
 

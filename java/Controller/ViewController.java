@@ -142,13 +142,6 @@ public class ViewController implements ActionListener {
     }
 
     /**
-     * Setter que inhabilita la generació de fitxers de tipus binari executables.
-     */
-    public void disableButton_BE(){
-        programView.setButton_BE(false);
-    }
-
-    /**
      * Setter que habilita la part pertinent a la sortida del programa
      */
     public void enableOutputDialog(){
