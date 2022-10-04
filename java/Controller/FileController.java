@@ -161,9 +161,7 @@ public class FileController {
      * @param cFile CFile amb la informació del fitxer a crear.
      */
     public void createCOutputFile(CFile cFile) {
-        String name = ((Archive.Directory) fileModel.getOutputDirectory()).getPath() + "\\" +
-                FilenameUtils.removeExtension(fileModel.getInputFile().getName()) +
-                C_EXTENSION;
+        String name = getFinalPath(C_EXTENSION);
         try {
             Files.copy(cFile.getAbsoluteFile().toPath(), new File(name).getAbsoluteFile().toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
@@ -199,9 +197,7 @@ public class FileController {
      * @param asmFile ASMFile amb la informació del fitxer a crear.
      */
     public void createASMOutputFile(ASMFile asmFile) {
-        String name = ((Archive.Directory) fileModel.getOutputDirectory()).getPath() + "\\" +
-                FilenameUtils.removeExtension(fileModel.getInputFile().getName()) +
-                ASM_EXTENSION;
+        String name = getFinalPath(ASM_EXTENSION);
         try {
             Files.copy(asmFile.getAbsoluteFile().toPath(), new File(name).getAbsoluteFile().toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
@@ -237,9 +233,7 @@ public class FileController {
      * @param objectFile ObjectFile amb la informació del fitxer a crear.
      */
     public void createObjectOutputFile(ObjectFile objectFile) {
-        String name = ((Archive.Directory) fileModel.getOutputDirectory()).getPath() + "\\" +
-                FilenameUtils.removeExtension(fileModel.getInputFile().getName()) +
-                OBJECT_EXTENSION;
+        String name = getFinalPath(OBJECT_EXTENSION);
         try {
             Files.copy(objectFile.getAbsoluteFile().toPath(), new File(name).getAbsoluteFile().toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
@@ -277,14 +271,23 @@ public class FileController {
      * @param peFile PEFile amb la informació del fitxer a crear.
      */
     public void createExecutableOutputFile(PEFile peFile) {
-        String name = ((Archive.Directory) fileModel.getOutputDirectory()).getPath() + "\\" +
-                FilenameUtils.removeExtension(fileModel.getInputFile().getName()) +
-                EXE_EXTENSION;
+        String name = getFinalPath(EXE_EXTENSION);
         try {
             Files.copy(peFile.getAbsoluteFile().toPath(), new File(name).getAbsoluteFile().toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Funció que processa la ruta del fitxer resultant, considerant així la pròpia ruta, el nom del fitxer, i la seva extensió.
+     * @param extension String amb l'extensió del fitxer.
+     * @return String amb la ruta del fitxer resultant.
+     */
+    private String getFinalPath(String extension){
+        return ((Archive.Directory) archiveModel.getOutputDirectory()).getPath() + "\\" +
+                FilenameUtils.removeExtension(archiveModel.getInputFile().getName()) +
+                extension;
     }
 }
