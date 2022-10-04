@@ -4,7 +4,7 @@ import java.io.File;
 
 /**
  * Archive és una interfície que ajuda en l'organització i establiment de relacions entre classes de tipus de Fitxers.
- * Aquesta, juntament amb les classes que l'utilitzen i el model FileModel, considerarien la part del mòdul del model pertinent als Fitxers.
+ * Aquesta, juntament amb les classes que l'utilitzen i el model ArchiveModel, considerarien la part del mòdul del model pertinent als Fitxers.
  *
  * @author Jaume Campeny
  * @version 1.0

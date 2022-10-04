@@ -1,4 +1,4 @@
-package Model;
+package Model.Archive;
 
 import Model.Archive.ASMFile;
 import Model.Archive.Archive;
@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * FileModel és una classe pròpia del mòdul Model, seguint el patró MVC.
+ * ArchiveModel és una classe pròpia del mòdul Model, seguint el patró MVC.
  * Resulta en el model encarregat del tractament i enregistrament de la informació clau pel que fa al fitxer d'entrada, i el posterior procés de creació del fitxer de sortida.
  * Juntament amb la interfície Archive, conforme el model que aglutina la memòria del programa vinculada als fitxers.
  *
@@ -18,7 +18,7 @@ import java.io.IOException;
  * @version 1.0
  * @since 17
  */
-public class FileModel {
+public class ArchiveModel {
     public static final String INPUT_FILE = "[INPUT]";
     public static final String OUTPUT_FILE = "[OUTPUT]";
     public static final String[] SUPPORTED_EXTENSIONS = {".c", ".s", ".o",".exe"};
@@ -34,7 +34,7 @@ public class FileModel {
     /**
      * Constructor de la classe.
      */
-    public FileModel(){
+    public ArchiveModel(){
         this.inputFile = null;
         this.outputDirectory = null;
     }

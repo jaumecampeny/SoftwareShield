@@ -31,7 +31,7 @@ public class Main {
             S'ha aplicat el patró MVC per a permetre una abstracció i repartició lògica de tasques entre les diferents classes del programa. Alliberant la càrrega dels mòduls principals i facilitant l'enteniment
             del programa gràcies a la distribució de mòduls lògics. A més a més d'un patró de disseny, també se'l considera un patró d'arquitectura, ja que afecta pròpiament a tot l'abast del programa i el plantejament d'aquest.
 
-            Pel que fa al codi, el patró MVC engloba la classe ProgramView com a mòdul de Vista; les classes FileModel, Technique Model, les derivades del mòdul Archive, les Settings del programa i finalment el MainModel
+            Pel que fa al codi, el patró MVC engloba la classe ProgramView com a mòdul de Vista; les classes ArchiveModel, Technique Model, les derivades del mòdul Archive, les Settings del programa i finalment el MainModel
             com a integrants del mòdul del model; i finalment 5 controladors per a encarregar-se de tota la lògica pertinent a interaccions entre vista i model, d'on destaca ViewController com a controlador de la vista
             i actuador davant les accions de l'usuari contra la interfície (fent ús de MainController per a parlar amb el mòdul de model), FileController com a controlador dels fitxers tant d'entrada com de sortida,
             TechniqueController com a controlador davant a la lògica de possibles seleccions de tècniques i l'aplicació de les mateixes mitjançant el controlador FileController per a editar els fitxers degudament.

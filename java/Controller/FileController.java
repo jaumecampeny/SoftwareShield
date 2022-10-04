@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Archive.*;
-import Model.FileModel;
+import Model.Archive.ArchiveModel;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
@@ -12,7 +12,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static Model.FileModel.*;
+import static Model.Archive.ArchiveModel.*;
 import static Model.Settings.*;
 
 /**
@@ -25,16 +25,16 @@ import static Model.Settings.*;
  * @since 17
  */
 public class FileController {
-    private final FileModel fileModel;
+    private final ArchiveModel archiveModel;
     private final ViewController viewController;
 
     /**
-     * Únic constructor de la classe. Permet la creació de la instància FileController, mitjançant l'enregistrament de les instàncies rebudes FileModel pertinent al Model i ViewController pertinent als Controladors.
-     * @param fileModel FileModel com a model que permetrà l'enregistrament dels paràmetres dessitjats del fitxer d'entrada, d'afegit a la facilitació en la generació dels fitxers de sortida.
+     * Únic constructor de la classe. Permet la creació de la instància FileController, mitjançant l'enregistrament de les instàncies rebudes ArchiveModel pertinent al Model i ViewController pertinent als Controladors.
+     * @param archiveModel ArchiveModel com a model que permetrà l'enregistrament dels paràmetres dessitjats del fitxer d'entrada, d'afegit a la facilitació en la generació dels fitxers de sortida.
      * @param viewController ViewController com a controlador que permetrà l'obtenció del fitxer d'entrada especificat per l'usuari, d'afegit a la configuració de les respectives interfícies de selecció.
      */
-    public FileController(FileModel fileModel, ViewController viewController) {
-        this.fileModel = fileModel;
+    public FileController(ArchiveModel archiveModel, ViewController viewController) {
+        this.archiveModel = archiveModel;
         this.viewController = viewController;
     }
 
@@ -62,7 +62,7 @@ public class FileController {
             }
 
             try {
-                fileModel.loadFile(fileName, extension.get(), FileModel.INPUT_FILE);
+                archiveModel.loadFile(fileName, extension.get(), ArchiveModel.INPUT_FILE);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -80,7 +80,7 @@ public class FileController {
         if (result == JFileChooser.APPROVE_OPTION) {
             File directory = viewController.getSelectedFile();
             try {
-                fileModel.loadFile(directory, null, FileModel.OUTPUT_FILE);
+                archiveModel.loadFile(directory, null, ArchiveModel.OUTPUT_FILE);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -93,7 +93,7 @@ public class FileController {
      * @return boolean que indica amb True que el fitxer és de tipus PEFile, o amb False en cas contrari.
      */
     public boolean isInputPEFile() {
-        return fileModel.getInputFile() instanceof PEFile;
+        return archiveModel.getInputFile() instanceof PEFile;
     }
 
     /**
@@ -101,7 +101,7 @@ public class FileController {
      * @return boolean que indica amb True que el fitxer és de tipus ASMFile, o amb False en cas contrari.
      */
     public boolean isInputASMFile() {
-        return fileModel.getInputFile() instanceof ASMFile;
+        return archiveModel.getInputFile() instanceof ASMFile;
     }
 
     /**
@@ -109,7 +109,7 @@ public class FileController {
      * @return boolean que indica amb True que el fitxer és de tipus ObjectFile, o amb False en cas contrari.
      */
     public boolean isInputObjectFile() {
-        return fileModel.getInputFile() instanceof ObjectFile;
+        return archiveModel.getInputFile() instanceof ObjectFile;
     }
 
     /**
@@ -117,7 +117,7 @@ public class FileController {
      * @return boolean que indica amb True que el fitxer és de tipus CFile, o amb False en cas contrari.
      */
     public boolean isInputCFile() {
-        return fileModel.getInputFile() instanceof CFile;
+        return archiveModel.getInputFile() instanceof CFile;
     }
 
     /**
@@ -127,7 +127,7 @@ public class FileController {
      */
     public Archive readInputFile() throws IOException {
         if (isInputCFile()) {
-            CFile original = (CFile) fileModel.getInputFile();
+            CFile original = (CFile) archiveModel.getInputFile();
             CFile copied = new CFile(new File(RESOURCES_PATH + original.getName()));
             Files.copy(original.getAbsoluteFile().toPath(), copied.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             copied.readFile();
@@ -135,21 +135,21 @@ public class FileController {
         }
 
         if (isInputASMFile()) {
-            ASMFile original = (ASMFile) fileModel.getInputFile();
+            ASMFile original = (ASMFile) archiveModel.getInputFile();
             ASMFile copied = new ASMFile(new File(RESOURCES_PATH + original.getName()));
             Files.copy(original.getAbsoluteFile().toPath(), copied.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             return copied;
         }
 
         if (isInputObjectFile()) {
-            ObjectFile original = (ObjectFile) fileModel.getInputFile();
+            ObjectFile original = (ObjectFile) archiveModel.getInputFile();
             ObjectFile copied = new ObjectFile(new File(RESOURCES_PATH + original.getName()));
             Files.copy(original.getAbsoluteFile().toPath(), copied.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             return copied;
         }
 
         if (isInputPEFile()) {
-            PEFile original = (PEFile) fileModel.getInputFile();
+            PEFile original = (PEFile) archiveModel.getInputFile();
             Files.copy(original.getAbsoluteFile().toPath(), new File(RESOURCES_PATH + original.getName()).getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             return new PEFile(new File(RESOURCES_PATH + original.getName()));
         }

@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Archive.*;
-import Model.FileModel;
+import Model.Archive.ArchiveModel;
 import Model.MainModel;
 import Model.TechniqueModel;
 import net.jsign.pe.SectionFlag;
@@ -317,7 +317,7 @@ public class TechniqueController {
     private void applyEW_Technique(PEFile peFile) {
         try {
             File tempFile = new File(FilenameUtils.removeExtension(peFile.getAbsoluteFile().toPath() +
-                    FileModel.TEMP_EXTENSION + FileModel.EXE_EXTENSION));
+                    ArchiveModel.TEMP_EXTENSION + ArchiveModel.EXE_EXTENSION));
             Files.copy(peFile.getAbsoluteFile().toPath(), tempFile.getAbsoluteFile().toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
             if(!peFile.delete()) System.out.println("ERROR DELETING FILE: " + peFile.getName());
