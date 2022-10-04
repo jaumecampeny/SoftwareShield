@@ -12,12 +12,6 @@ import java.io.File;
  */
 public interface Archive {
 
-    class Directory extends File implements Archive{
-        public Directory(File file) {
-            super(file.getPath());
-        }
-    }
-
     /**
      * Getter del nom del fitxer/directori
      * @return String amb el nom del fitxer/directori
