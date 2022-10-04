@@ -69,8 +69,8 @@ public class AzureKeyVaultSigningService implements SigningService {
     /**
      * Creates a new Azure Key Vault signing service.
      *
-     * @param vault the name of the key vault, either the short name (e.g. <tt>myvault</tt>),
-     *              or the full URL (e.g. <tt>https://myvault.vault.azure.net</tt>).
+     * @param vault the name of the key vault, either the short name (e.g. <code>myvault</code>),
+     *              or the full URL (e.g. <code><a href="https://myvault.vault.azure.net">...</a></code>).
      * @param token the Azure API access token
      */
     public AzureKeyVaultSigningService(String vault, String token) {

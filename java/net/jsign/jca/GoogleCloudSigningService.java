@@ -38,16 +38,16 @@ import net.jsign.DigestAlgorithm;
  * <p>The key alias can take one of the following forms:</p>
  *  <ul>
  *   <li>The absolute path of the key with the exact version specified:
- *       <tt>projects/first-rain-123/locations/global/keyRings/mykeyring/cryptoKeys/mykey/cryptoKeyVersions/2</tt></li>
+ *       <code>projects/first-rain-123/locations/global/keyRings/mykeyring/cryptoKeys/mykey/cryptoKeyVersions/2</code></li>
  *   <li>The absolute path of the key without the version specified, the first version enabled will be used:
- *       <tt>projects/first-rain-123/locations/global/keyRings/mykeyring/cryptoKeys/mykey</tt></li>
- *   <li>The path of the key relatively to the keyring with the version specified: <tt>mykey/cryptoKeyVersions/2</tt></li>
- *   <li>The path of the key relatively to the keyring without the version specified: <tt>mykey</tt></li>
+ *       <code>projects/first-rain-123/locations/global/keyRings/mykeyring/cryptoKeys/mykey</code></li>
+ *   <li>The path of the key relatively to the keyring with the version specified: <code>mykey/cryptoKeyVersions/2</code></li>
+ *   <li>The path of the key relatively to the keyring without the version specified: <code>mykey</code></li>
  * </ul>
  *
  * <p>When the version of the key is specified, it's also possible to append the algorithm of the key, this saves
  * a round-trip and reduces the risk of hitting a read request limit when signing a large number of files:
- * <tt>mykey/cryptoKeyVersions/2:ECDSA</tt></p>
+ * <code>mykey/cryptoKeyVersions/2:ECDSA</code></p>
  *
  * @since 4.0
  * @see <a href="https://cloud.google.com/kms/docs/reference/rest">Cloud Key Management Service (KMS) API</a>
@@ -68,7 +68,7 @@ public class GoogleCloudSigningService implements SigningService {
     /**
      * Creates a new Google Cloud signing service.
      *
-     * @param keyring          the path of the keyring (for example <tt>projects/first-rain-123/locations/global/keyRings/mykeyring</tt>)
+     * @param keyring          the path of the keyring (for example <code>projects/first-rain-123/locations/global/keyRings/mykeyring</code>)
      * @param token            the Google Cloud API access token
      * @param certificateStore provides the certificate chain for the keys
      */
