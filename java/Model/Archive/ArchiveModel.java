@@ -51,7 +51,7 @@ public class ArchiveModel {
                     case EXE_EXTENSION -> inputFile = new PEFile(file);
                 }
             }
-            case OUTPUT_FILE -> outputDirectory = new Archive.Directory(file);
+            case OUTPUT_FILE -> outputDirectory = new Directory(file);
         }
     }
 

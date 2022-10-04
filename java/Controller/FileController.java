@@ -286,7 +286,7 @@ public class FileController {
      * @return String amb la ruta del fitxer resultant.
      */
     private String getFinalPath(String extension){
-        return ((Archive.Directory) archiveModel.getOutputDirectory()).getPath() + "\\" +
+        return ((Directory) archiveModel.getOutputDirectory()).getPath() + "\\" +
                 FilenameUtils.removeExtension(archiveModel.getInputFile().getName()) +
                 extension;
     }
