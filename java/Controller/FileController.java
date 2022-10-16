@@ -290,4 +290,22 @@ public class FileController {
                 FilenameUtils.removeExtension(archiveModel.getInputFile().getName()) +
                 extension;
     }
+
+    public CFile copyUnpackFile() {
+        String sourcePath = archiveModel.EW_PATH + "/unpack.c";
+        String destPath = archiveModel.EW_PATH + "/mod/unpack.c";
+        try {
+
+            CFile source = new CFile(new File(sourcePath));
+            CFile dest = new CFile(new File(destPath));
+            Files.copy(source.getAbsoluteFile().toPath(), dest.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return dest;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getEWPath(){
+        return archiveModel.EW_PATH;
+    }
 }

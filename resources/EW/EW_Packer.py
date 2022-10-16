@@ -52,7 +52,7 @@ if __name__ == "__main__":
     input_PE = lief.PE.parse(args.input)
 
     # Compiles the unpacker stub a first time, with no particular options
-    compile_stub("unpack.c", "unpack.exe", more_parameters=[])
+    compile_stub("mod/unpack.c", "unpack.exe", more_parameters=[])
 
     # open the unpack.exe binary
     unpack_PE = lief.PE.parse("unpack.exe")

@@ -2,6 +2,7 @@ package Model.Archive;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 /**
  * ArchiveModel és una classe pròpia del mòdul Model, seguint el patró MVC.
@@ -21,6 +22,7 @@ public class ArchiveModel {
     public static final String OBJECT_EXTENSION = ".o";
     public static final String EXE_EXTENSION = ".exe";
     public static final String TEMP_EXTENSION = ".tmp";
+    public final String EW_PATH;
 
     private Archive inputFile;
     private Archive outputDirectory;
@@ -28,9 +30,10 @@ public class ArchiveModel {
     /**
      * Constructor de la classe.
      */
-    public ArchiveModel(){
+    public ArchiveModel(URL EW_PATH){
         this.inputFile = null;
         this.outputDirectory = null;
+        this.EW_PATH = EW_PATH.toString().substring(EW_PATH.toString().indexOf("/") + 1);
     }
 
     /**

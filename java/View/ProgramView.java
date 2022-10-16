@@ -11,6 +11,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import static Model.Settings.*;
 
@@ -33,10 +36,10 @@ public class ProgramView extends JFrame {
      * Únic constructor de la classe. Inicialitza i prepara el JFrame per a la vista a mostrar a l'usuari per pantalla.
      * @throws IOException Excepció originada a causa d'un error en la càrrega de la icona del programa.
      */
-    public ProgramView() throws IOException {
+    public ProgramView(InputStream icon) throws IOException {
         super(TITLE_VIEW);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setIconImage(ImageIO.read(new File(ICON_PATH)));
+        setIconImage(ImageIO.read(icon));
         getRootPane().setBorder(new EmptyBorder(10,10,10,10));
         setResizable(true);
 

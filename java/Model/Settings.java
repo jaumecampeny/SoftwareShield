@@ -1,8 +1,7 @@
 package Model;
 
 public class Settings {
-    public static final String RESOURCES_PATH = "resources/";
-    public static final String ICON_PATH = "resources/icon.png";
+    public static final String ICON_NAME = "icon.png";
     public static final String TITLE_VIEW = "SoftwareShield";
 
     public static final String INPUT_FILE_TEXT = "Fitxer entrada";

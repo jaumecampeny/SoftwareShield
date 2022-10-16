@@ -10,11 +10,11 @@ package Model;
  * @since 17
  */
 public class TechniqueModel {
-    public static final String TECHNIQUE_CRDP_SCRIPT1 = "#include \"windows.h\"";
-    public static final String TECHNIQUE_CRDP_SCRIPT2 = """
+    public static final String TECHNIQUE_CRDP_SCRIPT1 = "#include <windows.h>";
+    public static final String TECHNIQUE_CRDP_SCRIPT2 = "#include <stdbool.h>";
+    public static final String TECHNIQUE_CRDP_SCRIPT3 = """
             BOOL HasDegubPort = FALSE;
             if (CheckRemoteDebuggerPresent(GetCurrentProcess(), &HasDegubPort) && HasDegubPort) {
-                printf("Debugger detected");
                 ExitProcess(0);
             }""".indent(4);
     public static final String TECHNIQUE_PTDAW_MAC_SCRIPT1 = """

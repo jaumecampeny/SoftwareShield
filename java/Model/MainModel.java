@@ -2,6 +2,8 @@ package Model;
 
 import Model.Archive.ArchiveModel;
 
+import java.net.URL;
+
 import static Model.Settings.*;
 
 /**
@@ -25,14 +27,14 @@ public class MainModel {
      * Constructor de la classe. Permet la creació de la instància MainModel, així com de ArchiveModel i TechniqueModel. Alhora també enregistra l'especificació de sistema operatiu del host.
      * @param os OS pertinent al sistema operatiu de l'entorn on s'executa el programa.
      */
-    public MainModel(String os){
+    public MainModel(String os, URL url){
         switch (os) {
             case WindowsOS -> this.os = OS.Windows_OS;
             case LinuxOS -> this.os = OS.Linux_OS;
             case MacOS -> this.os = OS.Mac_OS;
             default -> this.os = OS.Other_OS;
         }
-        archiveModel = new ArchiveModel();
+        archiveModel = new ArchiveModel(url);
         techniqueModel = new TechniqueModel();
     }
 

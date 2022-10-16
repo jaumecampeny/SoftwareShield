@@ -193,9 +193,19 @@ public class TechniqueController {
      * Mètode que realitza la lògica pertinent per a l'aplicació de les tècniques seleccionades aplicables en fase de binari de tipus executable.
      * @param peFile PEFile pertinent al fitxer on aplicar les tècniques seleccionades.
      */
-    public void applyBETechniques(PEFile peFile) {
+    public void applyBETechniques(PEFile peFile) throws IOException {
         if (isTechniqueHE_Selected()) applyHE_Technique(peFile);
-        if (isTechniqueEW_Selected()) applyEW_Technique(peFile);
+        if (isTechniqueEW_Selected()){
+            CFile cfile = fileController.copyUnpackFile();
+            cfile.readFile();
+            if(isTechniqueCRDP_Selected()) applyCRDP_Technique(cfile);
+            if(isTechniqueSBD_Selected()) applySBD_Technique(cfile);
+            if (isTechniquePTDAW_Selected()) {
+                if (os == MainModel.OS.Mac_OS) applyPTDAW_Technique_Mac(cfile);
+                if (os == MainModel.OS.Linux_OS) applyPTDAW_Technique_Linux(cfile);
+            }
+            applyEW_Technique(peFile);
+        }
         if (isTechniqueSRS_Selected()) applySRS_Technique(peFile);
     }
 
@@ -208,7 +218,13 @@ public class TechniqueController {
             cFile.addTextToFile(TECHNIQUE_CRDP_SCRIPT1, 1);
             cFile.addInclude("windows.h", 1);
         }
-        cFile.addTextToFile(TECHNIQUE_CRDP_SCRIPT2, cFile.getFunctionLine("main") + 1);
+        if (!cFile.existsInclude("stdbool.h")) {
+            cFile.addTextToFile(TECHNIQUE_CRDP_SCRIPT2, 1);
+            cFile.addInclude("stdbool.h", 1);
+        }
+
+        int functionLine = cFile.getFunctionLine("_start") != -1 ? cFile.getFunctionLine("_start") : cFile.getFunctionLine("main");
+        cFile.addTextToFile(TECHNIQUE_CRDP_SCRIPT3, functionLine + 1);
     }
 
     /**
@@ -323,10 +339,10 @@ public class TechniqueController {
             Files.copy(peFile.getAbsoluteFile().toPath(), tempFile.getAbsoluteFile().toPath(),
                     StandardCopyOption.REPLACE_EXISTING);
             if(!peFile.delete()) System.out.println("ERROR DELETING FILE: " + peFile.getName());
-            ProcessBuilder builder = new ProcessBuilder("python", "EW_Packer.py", tempFile.getAbsoluteFile().getPath(),
+            ProcessBuilder builder = new ProcessBuilder("python", fileController.getEWPath() + "/EW_Packer.py", tempFile.getAbsoluteFile().getPath(),
                     "-o", peFile.getAbsoluteFile().getPath()).inheritIO();
             builder.redirectErrorStream(true);
-            builder.directory(new File(peFile.getParentFile() + "/EW"));
+            builder.directory(new File(fileController.getEWPath()));
             builder.start().waitFor();
             if(!tempFile.delete()) System.out.println("ERROR DELETING FILE: " + tempFile.getName());
         } catch (IOException | InterruptedException e) {
