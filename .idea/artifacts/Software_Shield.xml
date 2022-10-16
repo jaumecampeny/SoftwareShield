@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Software_Shield">
-    <output-path>$PROJECT_DIR$/out/artifacts/Software_Shield</output-path>
-    <root id="archive" name="Software_Shield.jar">
-      <element id="module-output" name="SoftwareShield" />
-    </root>
-  </artifact>
-</component>
