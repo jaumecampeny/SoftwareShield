@@ -26,7 +26,7 @@ public class MainController {
      */
     public MainController(MainModel mainModel, ProgramView programView) {
         this.viewController = new ViewController(this, programView);
-        this.fileController = new FileController(mainModel.getArchiveModel(), viewController);
+        this.fileController = new FileController(mainModel.getArchiveModel(), viewController, mainModel.getOS());
         this.techniqueController = new TechniqueController(fileController, viewController, mainModel.getTechniqueModel(), mainModel.getOS());
         this.generateController = new GenerateController(techniqueController, viewController, fileController);
     }

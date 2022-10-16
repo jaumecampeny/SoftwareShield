@@ -2,11 +2,14 @@ package Controller;
 
 import Model.Archive.*;
 import Model.Archive.ArchiveModel;
+import Model.MainModel;
 import org.apache.commons.io.FilenameUtils;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -27,15 +30,17 @@ import static Model.Settings.*;
 public class FileController {
     private final ArchiveModel archiveModel;
     private final ViewController viewController;
+    private final MainModel.OS os;
 
     /**
      * Únic constructor de la classe. Permet la creació de la instància FileController, mitjançant l'enregistrament de les instàncies rebudes ArchiveModel pertinent al Model i ViewController pertinent als Controladors.
      * @param archiveModel ArchiveModel com a model que permetrà l'enregistrament dels paràmetres dessitjats del fitxer d'entrada, d'afegit a la facilitació en la generació dels fitxers de sortida.
      * @param viewController ViewController com a controlador que permetrà l'obtenció del fitxer d'entrada especificat per l'usuari, d'afegit a la configuració de les respectives interfícies de selecció.
      */
-    public FileController(ArchiveModel archiveModel, ViewController viewController) {
+    public FileController(ArchiveModel archiveModel, ViewController viewController, MainModel.OS os) {
         this.archiveModel = archiveModel;
         this.viewController = viewController;
+        this.os = os;
     }
 
     /**
@@ -126,9 +131,16 @@ public class FileController {
      * @throws IOException Excepció originada a causa de no trobar el fitxer.
      */
     public Archive readInputFile() throws IOException {
+        String tempPath = File.createTempFile("temp-file", "tmp").getParent();
+        if (os == MainModel.OS.Windows_OS) {
+            tempPath += "\\";
+        } else {
+            tempPath += "/";
+        }
+
         if (isInputCFile()) {
             CFile original = (CFile) archiveModel.getInputFile();
-            CFile copied = new CFile(new File(RESOURCES_PATH + original.getName()));
+            CFile copied = new CFile(new File(tempPath + original.getName()));
             Files.copy(original.getAbsoluteFile().toPath(), copied.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             copied.readFile();
             return copied;
@@ -136,22 +148,22 @@ public class FileController {
 
         if (isInputASMFile()) {
             ASMFile original = (ASMFile) archiveModel.getInputFile();
-            ASMFile copied = new ASMFile(new File(RESOURCES_PATH + original.getName()));
+            ASMFile copied = new ASMFile(new File(tempPath + original.getName()));
             Files.copy(original.getAbsoluteFile().toPath(), copied.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             return copied;
         }
 
         if (isInputObjectFile()) {
             ObjectFile original = (ObjectFile) archiveModel.getInputFile();
-            ObjectFile copied = new ObjectFile(new File(RESOURCES_PATH + original.getName()));
+            ObjectFile copied = new ObjectFile(new File(tempPath + original.getName()));
             Files.copy(original.getAbsoluteFile().toPath(), copied.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
             return copied;
         }
 
         if (isInputPEFile()) {
             PEFile original = (PEFile) archiveModel.getInputFile();
-            Files.copy(original.getAbsoluteFile().toPath(), new File(RESOURCES_PATH + original.getName()).getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
-            return new PEFile(new File(RESOURCES_PATH + original.getName()));
+            Files.copy(original.getAbsoluteFile().toPath(), new File(tempPath + original.getName()).getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return new PEFile(new File(tempPath + original.getName()));
         }
         return null;
     }
@@ -178,8 +190,9 @@ public class FileController {
     public ASMFile createASMOutputFile(CFile cFile) {
         try {
             //gcc -S main.c
+            String command = os == MainModel.OS.Windows_OS ? "i686-w64-mingw32-gcc.exe" : "gcc";
             ProcessBuilder builder = new ProcessBuilder(
-                    "i686-w64-mingw32-gcc.exe", "-S", cFile.getAbsolutePath()).inheritIO();
+                    command, "-S", cFile.getAbsolutePath()).inheritIO();
             builder.redirectErrorStream(true);
             builder.directory(cFile.getParentFile());
             builder.start().waitFor();
@@ -214,8 +227,9 @@ public class FileController {
     public ObjectFile createObjectOutputFile(ASMFile asmFile) {
         try {
             //gcc -c main.s
+            String command = os == MainModel.OS.Windows_OS ? "i686-w64-mingw32-gcc.exe" : "gcc";
             ProcessBuilder builder = new ProcessBuilder(
-                    "i686-w64-mingw32-gcc.exe", "-c", asmFile.getAbsolutePath()).inheritIO();
+                    command, "-c", asmFile.getAbsolutePath()).inheritIO();
             builder.redirectErrorStream(true);
             builder.directory(asmFile.getParentFile());
             builder.start().waitFor();
@@ -251,9 +265,10 @@ public class FileController {
         try {
             //gcc main.o -o main.exe
             int extensionIndex = objectFile.getAbsolutePath().lastIndexOf(".");
+            String command = os == MainModel.OS.Windows_OS ? "i686-w64-mingw32-gcc.exe" : "gcc";
 
             ProcessBuilder builder = new ProcessBuilder(
-                    "i686-w64-mingw32-gcc.exe", objectFile.getAbsolutePath(), "-o", objectFile.getAbsolutePath().substring(0, extensionIndex) + EXE_EXTENSION).inheritIO();
+                    command, objectFile.getAbsolutePath(), "-o", objectFile.getAbsolutePath().substring(0, extensionIndex) + EXE_EXTENSION).inheritIO();
             builder.redirectErrorStream(true);
             builder.directory(objectFile.getParentFile());
             builder.start().waitFor();
