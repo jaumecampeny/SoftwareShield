@@ -3,6 +3,9 @@ import Model.MainModel;
 import View.ProgramView;
 
 import java.io.*;
+import java.net.URL;
+
+import static Model.Settings.ICON_NAME;
 
 /**
  * Classe main. Fil principal d'execució.
@@ -40,12 +43,13 @@ public class Main {
             de l'usuari amb els altres controladors del programa.
          */
         ProgramView programView;
+
         try {
-            programView = new ProgramView();
+            programView = new ProgramView(Main.class.getClassLoader().getResourceAsStream(ICON_NAME));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        MainModel mainModel = new MainModel(System.getProperty("os.name"));
+        MainModel mainModel = new MainModel(System.getProperty("os.name"), Main.class.getClassLoader().getResource("EW"));
         new MainController(mainModel, programView);
         programView.setVisible(true);
     }
